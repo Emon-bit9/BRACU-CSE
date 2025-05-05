@@ -1,0 +1,891 @@
+#TASK 01
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov ax,-10
+    CMP Ax,0 
+    JNL End_if
+    Mov ax,5 
+    jmp exit
+    End_if:
+    EXIT:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+#TASK2 (By TAKING INPUT)
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    MOv ah,1  
+    int 21h
+    mov bl,al
+    int 21h
+    mov bh,al
+    cmp bl,bh
+    JL comes_first 
+    Mov ah, 2
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+   
+    mov dl,bh ;bl>bh
+    int 21h
+    jmp exit
+    comes_first:  ;if bl<bh 
+    Mov ah, 2
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    Mov dl,bl
+    Int 21h
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+ALTERNATIVE WAY (wITHOUT TAKING INPUT)
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov bl,"A"
+    Mov bh, "B"
+    cmp bl,bh
+    JL comes_first 
+    Mov ah,2
+    mov dl,bh ;bl>bh
+    int 21h
+    jmp exit
+    comes_first:  ;if bl<bh 
+    Mov ah, 2
+    Mov dl,bl
+    Int 21h
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+#TASK 03
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov Ax,5
+    cmp ax,0
+    JG Greater
+    JL Smaller
+    mov bx,0
+    jmp Exit
+    Greater:
+    Mov bx,1 
+    jmp Exit
+    Smaller:
+    mov bx,-1 
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+
+#TASK4(WITHOUT TAKING INPUT)
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov AL,2
+    CMP Al,1
+    JE Odd
+    cmp Al,3
+    JE Odd
+    CMP Al,2
+    JE Even
+    Cmp Al,4
+    JE Even
+    Odd:
+    Mov Al,"o"
+    jmp Display
+    Even:
+    Mov Al,"e"
+    jmp Display
+    Display:
+    Mov ah,2
+    mov dl,al
+    int 21h
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+#ANOTHER WAY( TAKING INPUT)
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a number: $"
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h 
+    Mov Ah,1
+    Int 21h 
+    MOv bl,al
+    CMP bl,"1"
+    JE odd
+    Cmp bl,"3"
+    JE odd 
+    
+    Cmp bl,"2"
+    JE even
+    Cmp bl,"4"
+    JE even
+    jmp exit
+    
+    odd:
+    Mov bl,"o"
+    jmp display
+    
+    even:
+    Mov bl,"e"
+    jmp display
+   
+    display:
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    Mov dl,bl
+    Int 21h 
+    
+   
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+#TASK 5
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov Ah,1
+    Int 21h 
+    ;MOv bl,al
+    CMP Al,"A"
+    JL else
+    CMP Al,"Z"
+    JG else
+    Mov ah,2
+    Mov dl,Al
+    Int 21h
+    jmp exit
+    
+    else:
+    jmp exit
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+#TASK 6
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+    Mov Ah,1
+    Int 21h 
+    MOv bl,al
+    CMP bl,"y"
+    JE Print
+    CMP bl,"Y"
+    JE Print
+    jmp exit
+    
+    Print:
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    Mov dl,bl
+    Int 21h
+    
+   
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+#Task 7
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a alphabet: $"  
+b db "The number is even$"
+c db "the number is odd$"
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h 
+    Mov Ah,1
+    Int 21h 
+    ;MOv bl,al
+    mov bh,2
+    div bh
+    CMP ah,0
+    JE even
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    Mov ah,9
+    lea dx,c
+    int 21h 
+    jmp exit
+    
+   
+    even:
+    jmp display
+   
+    display:
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,b
+    int 21h  
+   
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+# TASK 8
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a alphabet: $"  
+b db "The alphabet is consonent$"
+c db "the alphabet is vowel$"
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h 
+    Mov Ah,1
+    Int 21h 
+    MOv bl,al
+    Cmp bl, "a"
+    JE vowel
+    cmp bl,"e"
+    JE vowel
+    cmp bl,"i"
+    JE vowel
+    cmp bl,"o"
+    JE vowel
+    cmp bl,"u"
+    JE vowel
+    Cmp bl, "A"
+    JE vowel
+    cmp bl,"E"
+    JE vowel
+    cmp bl, "I"
+    JE vowel
+    cmp bl, "O"
+    JE vowel
+    cmp bl,"U"
+    JE vowel
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    Mov ah,9
+    lea dx,b
+    int 21h 
+    jmp exit
+    
+   
+    vowel:
+    jmp display
+   
+    display:
+    Mov ah,2 
+    Mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,c
+    int 21h 
+  
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+#TASK 9
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    MOv ax,110
+    Mov bx,55
+    div bx 
+    CMP dx,0
+    
+    JE divisible
+    jmp not_possible 
+    
+    
+   
+    divisible:
+    jmp display
+   
+    display:
+    Mov ah,9
+    lea dx,c
+    int 21h
+    jmp exit
+     
+    not_possible:
+    
+    Mov ah,9
+    lea dx,b
+    int 21h 
+    
+   
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+#TASK11
+
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a number: $" 
+ 
+b db  "Enter a number: $" 
+c db  "Enter a number: $"
+d db "y"
+e db "n" 
+
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h
+    Mov ah,1
+    int 21h
+    mov bl,al;a
+    
+    Mov ah ,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h 
+    
+    Mov ah,9
+    lea dx,b
+    int 21h
+    Mov ah,1
+    int 21h
+    Mov cl,al;b
+     
+     
+    Mov ah ,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h 
+    
+    Mov ah,9
+    lea dx,b
+    int 21h
+    Mov ah,1
+    int 21h
+    mov bh,al;c
+   
+    Add bl,cl ;a+b 
+    
+    mov ch,bl
+    Sub ch,48
+    add cl,bh ;b+c
+    
+    mov dh,cl
+    sub dh,48
+    add bl,bh ;c+a
+    
+    Mov dl,bl
+    sub dl,48
+    
+    CMP ch,bh 
+    JG Greater
+    
+    jmp else 
+     
+   
+    
+    
+    
+    Greater: 
+    CMP dh,bl
+    JG valid
+    jmp else
+    
+    valid:
+    CMP dl,cl
+    jmp print 
+    jmp else
+    
+    print:
+    
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    
+    mov dl,"y"
+    int 21h
+    jmp exit  
+    else:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+   
+    mov dl,"n"
+    int 21h 
+    
+    
+     
+    
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+#TASK 12
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a number: $" 
+ 
+b db "i$"
+c db "k$"
+d db "l$"
+e db "m$"
+
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h
+    Mov ah,1
+    int 21h
+    mov bl,al
+    Cmp bl,"1"
+    JE il 
+    CMP bl, '2'
+    JE il
+    Cmp bl,'3'
+    JE il
+    Cmp bl,'4'
+    JE kl 
+    Cmp bl,'5' 
+    JE kl
+    Cmp bl,'6'
+    JE kl
+    Cmp bl,'7' 
+    JE ml 
+    CMP bl,"8"
+    JE ml
+    CMP bl,"9"
+    JE ml
+    CMP bl,"A"
+    JE nl 
+    
+    
+ 
+    jmp exit
+    
+    
+    
+      
+    
+    il:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,b
+    int 21h 
+    jmp exit
+    
+    kl: 
+    
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,c
+    int 21h 
+    jmp exit
+    
+    
+    ml:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,d
+    int 21h
+    jmp exit
+    
+    
+    nl:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,e
+    int 21h 
+     
+    
+    
+    
+    
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+
+
+
+#TASK 13
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a number: $" 
+h db "Saturday$" 
+b db "Sunday$"
+c db "Monday$"
+d db "Tuesday$"
+f db "Thursday$"
+e db "Wednesday$"
+g db "Friday$"
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h
+    Mov ah,1
+    int 21h
+    mov bl,al
+    Cmp bl,"1"
+    JE hl 
+    CMP bl, '2'
+    JE il
+    Cmp bl,'3'
+    JE kl
+    Cmp bl,'4'
+    JE ml 
+    Cmp bl,'5' 
+    JE nl
+    Cmp bl,'6'
+    JE on
+    Cmp bl,'7'
+    JE pn
+ 
+    jmp exit
+    
+    
+    hl:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,h
+    int 21h 
+    jmp exit
+        
+      
+    
+    il:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,b
+    int 21h 
+    jmp exit
+    
+    kl: 
+    
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,c
+    int 21h 
+    jmp exit
+    
+    
+    ml:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,d
+    int 21h 
+    jmp exit
+    
+    nl:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,e
+    int 21h 
+    jmp exit
+    
+    on:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,f
+    int 21h
+    jmp exit 
+    
+    pn:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,g
+    int 21h 
+    
+   
+    
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN
+
+#TASK 14
+.MODEL SMALL
+.STACK 100H
+.DATA
+A db "Enter a number: $" 
+ 
+b db "28 days$"
+c db "30 days$"
+d db "31 days$"
+e db "Thursday$"
+
+
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    Mov ah,9
+    lea dx,A
+    int 21h
+    Mov ah,1
+    int 21h
+    mov bl,al
+    Cmp bl,"1"
+    JE ml 
+    CMP bl, '2'
+    JE il
+    Cmp bl,'3'
+    JE ml
+    Cmp bl,'4'
+    JE kl 
+    Cmp bl,'5' 
+    JE ml
+    Cmp bl,'6'
+    JE kl
+    Cmp bl,'7' 
+    JE ml 
+    CMP bl,"8"
+    JE ml
+    CMP bl,"9"
+    JE kl
+    CMP bl,"A"
+    JE ml 
+    CMP bl,"B"
+    JE kl
+    cmp bl,"C"
+    JE ml
+    
+ 
+    jmp exit
+    
+    
+    
+      
+    
+    il:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,b
+    int 21h 
+    jmp exit
+    
+    kl: 
+    
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,c
+    int 21h 
+    jmp exit
+    
+    
+    ml:
+    Mov ah,2
+    mov dl,0dh
+    int 21h
+    mov dl,0ah
+    int 21h
+    Mov ah,9
+    lea dx,d
+    int 21h 
+    
+    
+    
+    
+    Exit:
+    HLT
+    MAIN ENDP
+END MAIN

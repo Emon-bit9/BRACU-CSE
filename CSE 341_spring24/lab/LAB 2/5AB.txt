@@ -1,0 +1,33 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+ST1 db "Please enter a character: $"
+.CODE
+MAIN PROC
+;iniitialize DS
+MOV AX,@DATA
+MOV DS,AX      
+;Code here
+
+
+MOV AH,2
+MOV DL, "?"
+INT 21H 
+
+MOV BL,2
+ADD BL,48
+MOV CL,7 
+ADD CL,48
+
+MOV DL,BL
+INT 21H  
+
+MOV DL,CL
+INT 21H
+
+
+
+;exit to DOS    
+
+MAIN ENDP
+    END MAIN

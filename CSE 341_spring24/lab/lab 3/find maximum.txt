@@ -1,0 +1,106 @@
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+
+A db "Enter a number: $"  
+B db " IS MAXIMUM $"
+C db " IS MINIMUM $"
+
+
+
+.CODE
+
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+;Code here  
+MOV AH,1
+INT 21H
+MOV BL,AL  ;1
+
+INT 21H
+MOV BH,AL    ;2
+
+INT 21H
+MOV CL,AL      ;3
+
+CMP BL,BH  ; 1,2
+
+JG GREATER:  
+
+
+GREATER:
+
+CMP BL,CL    ;1,3  
+
+JG GREATER1:
+
+JMP GREATER2:
+
+GREATER2:
+
+CMP CL,BH  ;3 2
+
+JG GREATER3:
+
+Mov ah,2     ;2
+Mov dl,0dh
+int 21h
+mov dl,0ah
+int 21h
+
+MOV DL, BH
+INT 21H
+
+Mov ah,9
+lea dx,b
+int 21h
+JMP EXIT
+
+GREATER3:   ;3
+Mov ah,2
+Mov dl,0dh
+int 21h
+mov dl,0ah
+int 21h
+
+MOV DL, CL
+INT 21H
+
+Mov ah,9
+lea dx,b
+int 21h  
+JMP EXIT
+ 
+
+GREATER1:   ;1
+Mov ah,2
+Mov dl,0dh
+int 21h
+mov dl,0ah
+int 21h
+
+MOV DL, BL
+INT 21H
+
+Mov ah,9
+lea dx,b
+int 21h  
+
+
+EXIT:
+
+   
+
+;exit to DOS  
+
+MOV AX,4C00H
+INT 21H
+MAIN ENDP
+
+    END MAIN
